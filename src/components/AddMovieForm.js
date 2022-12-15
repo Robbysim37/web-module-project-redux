@@ -23,6 +23,15 @@ const AddMovieForm = (props) => {
     }
 
     const handleSubmit = (e) => {
+        props.addMovie(movie)
+        push('/movies/')
+    }
+
+    const idAssign = () => {
+        setMovie({
+            ...movie,
+            ["id"]: props.movies.length
+        });
     }
 
     const { title, director, genre, metascore, description } = movie;
@@ -58,7 +67,7 @@ const AddMovieForm = (props) => {
                         			
                     </div>
                     <div className="modal-footer">
-                        <input type="submit" className="btn btn-success" value="Add"/>
+                        <input type="submit" className="btn btn-success" value="Add" onClick={idAssign}/>
                         <Link to={`/movies`}><input type="button" className="btn btn-default" value="Cancel"/></Link>
                     </div>
                 </form>
@@ -67,4 +76,8 @@ const AddMovieForm = (props) => {
     </div>);
 }
 
-export default AddMovieForm;
+const mapStateToProps = state => ({
+    movies:state.movieReducer.movies
+})
+
+export default connect(mapStateToProps, {addMovie})(AddMovieForm);
